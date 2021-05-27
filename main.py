@@ -1,5 +1,7 @@
 import os, time
- 
+
+FILE_FETCH_TIME_AFTER_RETRIEVE = 8
+
 def getListOfFilesDirectories(dirName):
     listOfFile = os.listdir(dirName)
     allFiles = list()
@@ -29,10 +31,9 @@ listOfFiles = getListOfFilesDirectories(dirName)
 print('Deployed file(s):                [simply lastModifiedDate != createdDate]')
 i = 1
 for elem in listOfFiles:
-    if (time.ctime(os.path.getmtime(elem)) != time.ctime(os.path.getctime(elem))) and not str(elem).endswith("xml") : 
+    if  ( abs(round((os.path.getmtime(elem) - os.path.getctime(elem)))) > FILE_FETCH_TIME_AFTER_RETRIEVE ) and not str(elem).endswith("xml") : 
         elem = str(elem)
         print(str(i) + '. ' + elem[elem.rindex("\\") + 1 : len(elem) ])
         i = i + 1 
 
 input()
- 
